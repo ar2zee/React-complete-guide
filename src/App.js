@@ -9,7 +9,8 @@ class App extends Component {
       {name: 'Max', age: 32},
       {name: 'Oleg', age: 42}  
     ],
-    otherValue: 'String'
+    otherValue: 'String',
+    showPerson: false
   }
 
   switchNameHandler = (newName) => {
@@ -33,6 +34,13 @@ class App extends Component {
     })
   }
 
+  togglePersonsHandler = () => {
+    const doesShow =this.state.showPerson;
+    this.setState({
+      showPerson: !doesShow
+    });
+  }
+
   render() {
     const style = {
       backgroundColor: 'navy',
@@ -42,26 +50,31 @@ class App extends Component {
       cursor: 'pointer'
     };
 
+    let persons = null;
+
+    if(this.state.showPerson){
+      persons = (
+        <div>
+          {this.state.persons.map(person => {
+            return <Person
+             name={person.name} age={person.age} />
+            
+          })}
+          
+        </div> 
+      )
+    }
+
     return (
       <div className="App">
        <h1>Hi, I'm React App</h1>
        <p>This is Working</p>
         <button
         style={style} 
-        onClick={this.switchNameHandler.bind(this, 'Looser')}>Switch Names
+        onClick={this.togglePersonsHandler}>Switch Names
         </button>   
         {/* <button onClick={() => this.switchNameHandler('Hulya!')}>Switch Names</button> Alternative way to bind  */}
-       <Person 
-        name={this.state.persons[0].name} 
-        age={this.state.persons[0].age}/>
-       <Person 
-        name={this.state.persons[1].name} 
-        age={this.state.persons[1].age}
-        click={this.switchNameHandler.bind(this, 'Not A Looser!')}
-        changed={this.nameChangedHandler}>My Hobbies is: Soccer</Person>
-       <Person 
-        name={this.state.persons[2].name} 
-        age={this.state.persons[2].age}/>
+        {persons}
       </div>
     );
   }

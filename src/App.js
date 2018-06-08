@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import './App.css';
 import Person from './Person/Person';
-import Radium from 'radium'
+import Radium, {StyleRoot} from 'radium'
 
 class App extends Component {
   state = {
@@ -101,6 +101,7 @@ class App extends Component {
 
 
     return (
+      <StyleRoot>
       <div className="App">
        <h1>Hi, I'm React App</h1>
        <p className={classes.join(' ')}>This is Working</p> 
@@ -111,6 +112,7 @@ class App extends Component {
         {/* <button onClick={() => this.switchNameHandler('Hulya!')}>Switch Names</button> Alternative way to bind  */}
         {persons}
       </div>
+        </StyleRoot>
     );
   }
 }

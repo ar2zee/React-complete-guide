@@ -5,6 +5,7 @@ import Cockpit from '../components/Cockpit/Cockpit';
 import withClass from '../hoc/withClass';
 import Aux from '../hoc/Aux';
 
+export const AuthContext = React.createContext(false);
 
 class App extends PureComponent {
   
@@ -19,15 +20,18 @@ class App extends PureComponent {
       ],
       otherValue: 'String',
       showPerson: false,
-      toggleClickCounter: 0
+      toggleClickCounter: 0,
+      authenticated: false
     }
   }
 
   componentWillMount(){
     console.log('[App.js] Inside componentWillMount', this.props);
+    
   }
   componentDidMount() {
     console.log('[App.js] Inside componentDidMount', this.props);
+    
   }
 
   // shouldComponentUpdate(nextProps, nextState) {
@@ -38,6 +42,17 @@ class App extends PureComponent {
   componentWillUpdate(nextProps, nextState) {
     console.log('[Update App.js] Inside componentWillUpdate', nextProps, nextState);
   }
+
+  static getDerivedStateFromProps(nextProps, prevState){
+    console.log('[Update App.js] Inside getDerivedStateFromProps', nextProps, prevState);
+    return prevState;
+  }
+
+  getSnapshotBeforeUpdate(){
+    console.log('[Update App.js] Inside getSnapshotBeforeUpdate');
+    return null;
+  }
+
   componentDidUpdate() {
     console.log('[Update App.js] Inside componentDidUpdate')
   }
@@ -91,6 +106,11 @@ class App extends PureComponent {
       }
     })
   }
+  
+  loginHandler = () => {
+    const authenticated = this.state.authenticated;
+    this.setState({ authenticated: !authenticated })
+  }
 
   render() {
     console.log('[App.js] Inside render', this.props);
@@ -103,18 +123,24 @@ class App extends PureComponent {
           persons={this.state.persons} 
           clicked={this.deletePersonHandler}
           changed={this.switchNameHandler}
+          // isAuthenticated={this.state.authenticated}
           />
     }
+
+   
 
     return (
       <Aux>
         <button onClick={() => this.setState({showPerson: true})}>Show Persons</button>
         <Cockpit 
         appTitle={this.props.title}
+        login={this.loginHandler}
         showPerson={this.state.showPerson}
         persons={this.state.persons}
         clicked={this.togglePersonsHandler}/>
+        <AuthContext.Provider value={this.state.authenticated}>
           {persons}
+          </AuthContext.Provider>
       </Aux>
     );
   }

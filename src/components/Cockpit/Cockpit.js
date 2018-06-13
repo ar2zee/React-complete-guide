@@ -28,6 +28,7 @@ const cockpit  =(props) => {
                     className={btnClass}
                     onClick={props.clicked}>Switch Names
                 </button>
+                <button onClick={props.login}> Log In </button>
             {/* <button 
             onClick={() => this.switchNameHandler('Hulya!')}>Switch Names</button> Alternative way to bind  */}
             </Fragment>
